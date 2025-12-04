@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Fisheye Backend - Express + TypeScript",
   "type": "module",
-  "main": "dist/server.js",
+  "main": "dist/src/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "npx prisma generate && tsc",
-    "start": "node dist/server.js",
+    "start": "node scripts/init-credentials.js && node dist/src/server.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
