@@ -75,16 +75,16 @@ class DeviceActionService {
 
     let teachersToNotify: Teacher[] = presentTeachers;
     if (validatedTargetTeacherId) {
-      // Notifie uniquement l'enseignant ciblé s'il est présent
-      teachersToNotify = presentTeachers.filter(
-        (t) => t.id === validatedTargetTeacherId,
-      );
-      if (teachersToNotify.length === 0) {
-        logger.warn("Target teacher not present", {
+      const targetTeacher = await prismaService.client.teacher.findUnique({
+        where: { id: validatedTargetTeacherId },
+      });
+
+      if (targetTeacher) {
+        teachersToNotify = [targetTeacher];
+      } else {
+        logger.warn("Target teacher not found during notification setup", {
           targetTeacherId: validatedTargetTeacherId,
-          locationId: doorbell.locationId,
         });
-        // Optionnel: Notifier tous les profs si le ciblé est absent ?
       }
     }
 
